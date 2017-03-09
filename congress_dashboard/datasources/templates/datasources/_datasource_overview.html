@@ -1,0 +1,22 @@
+{% load i18n %}
+
+<h3>{% trans "Service Status" %}</h3>
+
+<div class="detail">
+  <dl class="dl-horizontal">
+    <dt> {% trans "Service Name" %}</dt>
+    <dd>{{ datasource_name }}</dd>
+    <dt>{% trans "Status" %}</dt>
+    <dd>{{ status }}</dd>
+    <dt>{% trans "Subscriptions" %}</dt>
+    <dd>{{ subscriptions }}</dd>
+    <dt>{% trans "Subscribers" %}</dt>
+    <dd>{{ subscribers }}</dd>
+    <dt>{% trans "Number of Updates" %}</dt>
+    <dd>{{ number_of_updates }}</dd>
+    <dt>{% trans "Last Updated" %}</dt>
+    <dd>{{ last_updated }}</dd>
+    <dt>{% trans "Last Error" %}</dt>
+    <dd>{{ last_error }}</dd>
+  </dl>
+</div>
