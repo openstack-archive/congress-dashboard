@@ -14,7 +14,7 @@
 
 from congressclient.v1 import client as congress_client
 from django.conf import settings
-import keystoneauth1.identity.v2 as v2
+# import keystoneauth1.identity.v2 as v2
 import keystoneauth1.identity.v3 as v3
 import keystoneauth1.session as kssession
 from openstack_dashboard.api import base
@@ -88,12 +88,7 @@ def congressclient(request):
 
 
 def get_keystone_session(auth_url, user):
-    if auth_url[-3:] == '/v3':
-        auth = v3.Token(auth_url, user.token.id, project_id=user.tenant_id)
-    else:
-        auth = v2.Token(auth_url, user.token.id, tenant_id=user.tenant_id,
-                        tenant_name=user.tenant_name)
-
+    auth = v3.Token(auth_url, user.token.id, project_id=user.tenant_id)
     session = kssession.Session(auth=auth)
     return session
 
@@ -302,3 +297,14 @@ def datasource_statuses_list(request):
             wrapper.set_value(key, value)
         ds_status.append(wrapper)
     return ds_status
+
+
+def datasource_status_list(request, datasource_name):
+    client = congressclient(request)
+    try:
+        status = client.list_datasource_status(datasource_name)
+        return status
+    except Exception:
+        LOG.exception("Failed to retrieve status for datasource %s",
+                      datasource_name)
+        raise

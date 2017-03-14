@@ -31,35 +31,41 @@ logger = logging.getLogger(__name__)
 
 class IndexView(tables.MultiTableView):
     """List service and policy defined data."""
-    table_classes = (datasources_tables.DataSourcesTablesTable,
-                     datasources_tables.DataSourceStatusesTable,)
+    table_classes = (datasources_tables.DataSourcesTable,
+                     datasources_tables.DataSourceStatusesTable, )
     template_name = 'admin/datasources/index.html'
 
-    def get_datasources_tables_data(self):
+    def get_datasources_list_data(self):
         try:
             datasources = congress.datasources_list(self.request)
+            return datasources
         except Exception as e:
-            msg = _('Unable to get services list: %s') % str(e)
+            msg = _('Unable to get data sources list: %s') % str(e)
             messages.error(self.request, msg)
             return []
 
-        ds_temp = []
-        for ds in datasources:
-            ds_id = ds['id']
-            try:
-                ds_tables = congress.datasource_tables_list(self.request,
-                                                            ds_id)
-            except Exception as e:
-                msg_args = {'ds_id': ds_id, 'error': str(e)}
-                msg = _('Unable to get tables list for service "%(ds_id)s": '
-                        '%(error)s') % msg_args
-                messages.error(self.request, msg)
-                return []
+    def get_service_status_data(self):
+        ds = []
+        try:
+            ds = congress.datasource_statuses_list(self.request)
+            logger.debug("ds status : %s " % ds)
+        except Exception as e:
+            msg = _('Unable to get data source status list: %s') % str(e)
+            messages.error(self.request, msg)
+        return ds
 
+
+class DatasourceView(tables.DataTableView):
+    template_name = 'admin/datasources/datasource_detail.html'
+    table_class = datasources_tables.DataSourcesTablesTable
+
+    def get_data(self):
+        ds_id = self.kwargs['datasource_id']
+        ds_temp = []
+        try:
+            ds_tables = congress.datasource_tables_list(self.request, ds_id)
             for table in ds_tables:
                 table.set_value('datasource_id', ds_id)
-                table.set_value('datasource_name', ds['name'])
-                table.set_value('datasource_driver', ds['driver'])
                 table.set_id_as_name_if_empty()
                 # Object ids within a Horizon table must be unique. Otherwise,
                 # Horizon will cache the column values for the object by id and
@@ -68,18 +74,37 @@ class IndexView(tables.MultiTableView):
                 table.set_value('id', '%s-%s' % (ds_id, table['table_id']))
                 ds_temp.append(table)
 
-        logger.debug("ds_temp %s" % ds_temp)
-        return ds_temp
-
-    def get_service_status_data(self):
-        ds = []
-        try:
-            ds = congress.datasource_statuses_list(self.request)
-            logger.debug("ds status : %s " % ds)
+            logger.debug("ds_temp %s" % ds_temp)
+            return ds_temp
         except Exception as e:
-            msg = _('Unable to get datasource status list: %s') % str(e)
+            msg_args = {'ds_id': ds_id, 'error': str(e)}
+            msg = _('Unable to get tables list for service "%(ds_id)s": '
+                    '%(error)s') % msg_args
             messages.error(self.request, msg)
-        return ds
+            return []
+
+    def get_context_data(self, **kwargs):
+        context = super(DatasourceView, self).get_context_data(**kwargs)
+        datasource_id = self.kwargs['datasource_id']
+        try:
+            datasource = congress.datasource_get(self.request, datasource_id)
+            status = congress.datasource_status_list(self.request,
+                                                     datasource['name'])
+            context['last_updated'] = status['last_updated']
+            context['subscribers'] = status['subscribers']
+            context['subscriptions'] = status['subscriptions']
+            context['last_error'] = status['last_error']
+            context['number_of_updates'] = status['number_of_updates']
+            context['datasource_name'] = datasource['name']
+            context['status'] = ('Active' if status['initialized']
+                                 else 'Not Active')
+            return context
+        except Exception as e:
+            msg_args = {'ds_id': datasource_id, 'error': str(e)}
+            msg = _('Unable to get status for data source "%(ds_id)s": '
+                    '%(error)s') % msg_args
+            messages.error(self.request, msg)
+            return []
 
 
 class DetailView(tables.DataTableView):

@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}{% trans "Datasource Overview" %}{% endblock %}
+{% block title %}{% trans "Data Source Overview" %}{% endblock %}
 
 {% block page_header %}
-   {% include "horizon/common/_page_header.html" with title=_("Datasource Details: ")|add:datasource_name %}
+   {% include "horizon/common/_page_header.html" with title=_("Data Source Details: ")|add:datasource_name %}
 {% endblock page_header %}
 
 {% block main %}
@@ -11,5 +11,4 @@
    <div id="datasources_tables">
     {{ datasources_tables_table.render }}
    </div>
-
 {% endblock %}
