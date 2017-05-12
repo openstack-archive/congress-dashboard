@@ -308,3 +308,29 @@ def datasource_status_list(request, datasource_name):
         LOG.exception("Failed to retrieve status for datasource %s",
                       datasource_name)
         raise
+
+
+def supported_driver_list(request):
+    client = congressclient(request)
+    try:
+        data = client.list_drivers()['results']
+        drivers = [(d['id'], d['id']) for d in data]
+        return drivers
+    except Exception:
+        LOG.exception("Unable to get driver list")
+        raise
+
+
+def create_datasource(request, data):
+    client = congressclient(request)
+    datasource = client.create_datasource(data)
+    return datasource
+
+
+def delete_datasource(request, datasource_name):
+    client = congressclient(request)
+    try:
+        client.delete_datasource(datasource_name)
+    except Exception:
+        LOG.exception("deleting datasource %s failed", datasource_name)
+        raise

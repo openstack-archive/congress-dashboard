@@ -26,6 +26,7 @@ DATASOURCE = r'^(?P<datasource_id>[^/]+)/%s$'
 urlpatterns = patterns(
     '',
     url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^create/$', views.CreateView.as_view(), name='create'),
     url(SERVICES % 'detail', views.DetailView.as_view(),
         name='datasource_table_detail'),
     url(DATASOURCE % 'detail', views.DatasourceView.as_view(),

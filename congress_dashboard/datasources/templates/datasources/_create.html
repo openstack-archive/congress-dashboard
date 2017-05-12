@@ -1,0 +1,26 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block form_id %}create_datasource_form{% endblock %}
+{% block form_action %}{% url 'horizon:admin:datasources:create' %}{% endblock %}
+
+{% block modal_id %}create_datasource_modal{% endblock %}
+{% block modal-header %}{% trans "Create Data Source" %}{% endblock %}
+
+{% block modal-body %}
+<div class="left">
+  <fieldset>
+    {% include "horizon/common/_form_fields.html" %}
+  </fieldset>
+</div>
+<div class="right">
+    <h3>{% trans "Description:" %}</h3>
+    <p>{% trans "Create a new data source with the any of the supported drivers listed."%}</p>
+    <p>{% trans "Congress uses a driver to connect each service to the policy engine. Connection details such as username, password, auth_url, project_name needed for congress to connect to respective service to be able poll data."%}</p>
+</div>
+{% endblock %}
+{% block modal-footer %}
+  <input class="btn btn-primary pull-right" type="submit" value="{% trans "Create Data Source" %}" />
+  <a href="{% url 'horizon:admin:datasources:index' %}" class="btn btn-default secondary cancel close">{% trans "Cancel" %}</a>
+{% endblock %}
