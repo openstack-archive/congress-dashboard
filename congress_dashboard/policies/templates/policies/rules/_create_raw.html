@@ -1,0 +1,26 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block form_id %}create_raw_rule_form{% endblock %}
+{% block form_action %}{% url 'horizon:admin:policies:create_raw_rule' policy_name %}{% endblock %}
+
+{% block modal_id %}create_raw_rule_modal{% endblock %}
+{% block modal-header %}{% trans "Enter Rule" %}{% endblock %}
+
+{% block modal-body %}
+<div class="left">
+  <fieldset>
+    {% include "horizon/common/_form_fields.html" %}
+  </fieldset>
+</div>
+<div class="right">
+    <p>{% trans "Enter rule in policy rule language."%}</p>
+    <p>{% trans "For Example: " %}</p>
+    <p>{% trans "flavors_in_use(flavor_id, flavor_name) :- nova:flavors(id=flavor_id, name=flavor_name), nova:servers(flavor_id=flavor_id)."%}</p>
+</div>
+{% endblock %}
+{% block modal-footer %}
+  <input class="btn btn-primary pull-right" type="submit" value="{% trans "Add" %}" />
+  <a href="{% url 'horizon:admin:policies:detail' policy_name%}" class="btn btn-default secondary cancel close">{% trans "Cancel" %}</a>
+{% endblock %}

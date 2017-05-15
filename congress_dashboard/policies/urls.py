@@ -29,6 +29,8 @@ urlpatterns = [
     url(POLICY % 'detail', views.DetailView.as_view(), name='detail'),
     url(POLICYTABLE % 'detail', data_views.DetailView.as_view(),
         name='policy_table_detail'),
+    url(POLICY % 'rules/create_raw',
+        rule_views.CreateRawView.as_view(), name='create_raw_rule'),
     url(POLICY % 'rules/create',
         rule_views.CreateView.as_view(), name='create_rule'),
 ]

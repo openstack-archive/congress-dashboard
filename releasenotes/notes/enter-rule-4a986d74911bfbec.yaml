@@ -1,0 +1,5 @@
+---
+features:
+  - Added support to enter rules in policy language directlt using
+    congress_dashboard if the user doesn't need navigation support to create
+    rules.
