@@ -7,13 +7,10 @@
 {% endblock page_header %}
 
 {% block main %}
-  <div id="policies_tables">
-    {{ policies_tables_table.render }}
+  <div id="datasources_list_tables">
+    {{ datasources_list_table.render }}
   </div>
-    <div id="service_status_tables">
+  <div id="service_status_tables">
     {{ service_status_table.render }}
-  </div>
-  <div id="service_tables">
-    {{ datasources_tables_table.render }}
   </div>
 {% endblock %}

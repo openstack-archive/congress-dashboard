@@ -26,10 +26,6 @@ def get_resource_url(obj):
 class DataSourcesTablesTable(tables.DataTable):
     name = tables.Column("name", verbose_name=_("Table Name"),
                          link=get_resource_url)
-    datasource_name = tables.Column("datasource_name",
-                                    verbose_name=_("Service"))
-    datasource_driver = tables.Column("datasource_driver",
-                                      verbose_name=_("Driver"))
 
     class Meta(object):
         name = "datasources_tables"
@@ -37,21 +33,27 @@ class DataSourcesTablesTable(tables.DataTable):
         hidden_title = False
 
 
-def get_policy_link(datum):
-    return reverse('horizon:admin:policies:detail',
-                   args=(datum['policy_name'],))
-
-
-def get_policy_table_link(datum):
-    return reverse('horizon:admin:datasources:policy_table_detail',
-                   args=(datum['policy_name'], datum['name']))
-
-
 class DataSourceRowsTable(tables.DataTable):
     class Meta(object):
         name = "datasource_rows"
         verbose_name = _("Rows")
         hidden_title = False
+
+
+# TODO(ramineni): support create/delete datasource
+class DataSourcesTable(tables.DataTable):
+    name = tables.Column("name", verbose_name=_("Data Source Name"),
+                         link='horizon:admin:datasources:datasource_detail')
+    enabled = tables.Column("enabled", verbose_name=_("Enabled"))
+    driver = tables.Column("driver", verbose_name=_("Driver"))
+#   config = tables.Column("config", verbose_name=_("Config"))
+
+    class Meta(object):
+        name = "datasources_list"
+        verbose_name = _("Data Sources")
+        hidden_title = False
+        # table_actions = (CreateDatasource,)
+        # row_actions = (Disable,)
 
 
 class DataSourceStatusesTable(tables.DataTable):
