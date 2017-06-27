@@ -25,7 +25,6 @@
 from __future__ import print_function
 
 import os
-import subprocess
 import sys
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -167,7 +166,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.todo',
               'sphinx.ext.coverage',
               'sphinx.ext.viewcode',
-              'oslosphinx',
+              'openstackdocstheme',
               ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -240,6 +239,7 @@ nitpicky = False
 # a list of builtin themes.
 # html_theme_path = ['.']
 # html_theme = '_theme'
+html_theme = 'openstackdocs'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -275,10 +275,7 @@ html_static_path = ['_static']
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
 # html_last_updated_fmt = '%b %d, %Y'
-git_cmd = ["git", "log", "--pretty=format:'%ad, commit %h'", "--date=local",
-           "-n1"]
-html_last_updated_fmt = subprocess.check_output(git_cmd,
-                                                stdin=subprocess.PIPE)
+html_last_updated_fmt = '%Y-%m-%d %H:%M'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
@@ -439,3 +436,8 @@ epub_copyright = u'2012, OpenStack'
 
 # Allow duplicate toc entries.
 # epub_tocdup = True
+
+# -- Options for openstackdocstheme -------------------------------------------
+repository_name = 'openstack/congress-dashboard'
+bug_project = 'congress-dashboard'
+bug_tag = ''
