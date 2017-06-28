@@ -4,14 +4,13 @@ Congress Dashboard
 
 Horizon Plugin for Congress
 
+Congress Dashboard is an extension for OpenStack Dashboard that provides a UI
+for Congress. With congress-dashboard, a user is able to easily write the
+policies and rules for governance of cloud.
+
 * Free software: Apache license
 * Source: http://git.openstack.org/cgit/openstack/congress-dashboard
 * Bugs: http://bugs.launchpad.net/congress
-
-Features
---------
-
-* TODO
 
 Enabling in DevStack
 --------------------
@@ -24,42 +23,39 @@ Add this repo as an external repository into your ``local.conf`` file::
 Manual Installation
 -------------------
 
-Begin by cloning the Horizon and Congress Dashboard repositories::
+The following below instructions assumes that Horizon is already installed and
+its installation folder is <horizon>. Detailed information on how to install
+Horizon can be found at http://docs.openstack.org/developer/horizon/quickstart.html#setup.
 
-    git clone https://github.com/openstack/horizon
-    git clone https://github.com/openstack/congress-dashboard
+The installation folder of Congress Dashboard will be referred to as <congress-dashboard>.
 
-Create a virtual environment and install Horizon dependencies::
+Clone Congress-Dashboard
 
-    cd horizon
-    python tools/install_venv.py
+.. code-block:: console
 
-Set up your ``local_settings.py`` file::
+  $ git clone https://github.com/openstack/congress-dashboard.git
+  $ cd congress-dashboard
 
-    cp openstack_dashboard/local/local_settings.py.example openstack_dashboard/local/local_settings.py
+Install requirements
 
-Open up the copied ``local_settings.py`` file in your preferred text
-editor. You will want to customize several settings:
+.. code-block:: console
 
--  ``OPENSTACK_HOST`` should be configured with the hostname of your
-   OpenStack server. Verify that the ``OPENSTACK_KEYSTONE_URL`` and
-   ``OPENSTACK_KEYSTONE_DEFAULT_ROLE`` settings are correct for your
-   environment. (They should be correct unless you modified your
-   OpenStack server to change them.)
+ $ sudo pip install .
 
-Install Congress Dashboard with all dependencies in your virtual environment::
+Install Source code
 
-    tools/with_venv.sh pip install -e ../congress-dashboard/
+.. code-block:: console
+
+  $ sudo python setup.py install
 
 And enable it in Horizon::
 
-    ln -s ../congress-dashboard/congress_dashboard/enabled/_50_policy.py openstack_dashboard/local/enabled
-    ln -s ../congress-dashboard/congress_dashboard/enabled/_60_policies.py openstack_dashboard/local/enabled
-    ln -s ../congress-dashboard/congress_dashboard/enabled/_70_datasources.py openstack_dashboard/local/enabled
+    ln -s <congress-dashboard>/congress_dashboard/enabled/_50_policy.py <horizon>/openstack_dashboard/local/enabled
+    ln -s <congress-dashboard>/congress_dashboard/enabled/_60_policies.py <horizon>/openstack_dashboard/local/enabled
+    ln -s <congress-dashboard>/congress_dashboard/enabled/_70_datasources.py <horizon>/openstack_dashboard/local/enabled
 
-To run horizon with the newly enabled Congress Dashboard plugin run::
+Restart Apache server
 
-    ./run_tests.sh --runserver 0.0.0.0:8080
+.. code-block:: console
 
-to have the application start on port 8080 and the horizon dashboard will be
-ayvailable in your browser at http://localhost:8080/
+  $ sudo service apache2 restart
