@@ -68,6 +68,7 @@ class PolicyTable(PolicyAPIDictWrapper):
     def set_policy_details(self, policy):
         self._apidict['policy_name'] = policy['name']
         self._apidict['policy_owner_id'] = policy['owner_id']
+        self._apidict['policy_description'] = policy['description']
 
 
 def congressclient(request):

@@ -1,4 +1,4 @@
-# Copyright 2014 VMware.
+# Copyright 2017 NEC, Corp
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -17,9 +17,9 @@ import horizon
 from openstack_dashboard.dashboards.admin import dashboard
 
 
-class Policies(horizon.Panel):
-    name = _("Policies")
-    slug = "policies"
+class Monitor(horizon.Panel):
+    name = _("Monitoring")
+    slug = "monitoring"
     permissions = ('openstack.roles.admin',)
 
-dashboard.Admin.register(Policies)
+dashboard.Admin.register(Monitor)

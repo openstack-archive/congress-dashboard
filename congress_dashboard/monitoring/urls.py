@@ -1,4 +1,4 @@
-# Copyright 2014 VMware.
+# Copyright 2017 NEC, Corp
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -12,14 +12,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from django.utils.translation import ugettext_lazy as _
-import horizon
-from openstack_dashboard.dashboards.admin import dashboard
+from django.conf.urls import url
+
+from congress_dashboard.monitoring import views
 
 
-class Policies(horizon.Panel):
-    name = _("Policies")
-    slug = "policies"
-    permissions = ('openstack.roles.admin',)
-
-dashboard.Admin.register(Policies)
+urlpatterns = [
+    url(r'^$', views.IndexView.as_view(), name='index'),
+]
