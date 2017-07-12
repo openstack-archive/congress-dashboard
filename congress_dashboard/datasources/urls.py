@@ -12,7 +12,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from django.conf.urls import patterns
 from django.conf.urls import url
 
 from congress_dashboard.datasources import views
@@ -23,8 +22,7 @@ SERVICES = (
 
 DATASOURCE = r'^(?P<datasource_id>[^/]+)/%s$'
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^create/$', views.CreateView.as_view(), name='create'),
     url(SERVICES % 'detail', views.DetailView.as_view(),
@@ -32,4 +30,4 @@ urlpatterns = patterns(
     url(DATASOURCE % 'detail', views.DatasourceView.as_view(),
         name='datasource_detail'),
 
-)
+]
