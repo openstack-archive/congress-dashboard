@@ -125,7 +125,6 @@ class DetailView(tables.DataTableView):
         datasource_id = self.kwargs['datasource_id']
         table_name = self.kwargs.get('policy_table_name')
         is_service = False
-
         try:
             if table_name:
                 # Policy data table.
