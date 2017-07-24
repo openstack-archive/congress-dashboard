@@ -172,6 +172,7 @@ class DetailView(tables.DataTableView):
         column_names = []
         table_class_attrs = copy.deepcopy(dict(self.table_class.__dict__))
         # Get schema from the server.
+        schema = {}
         try:
             if is_service:
                 schema = congress.datasource_table_schema_get(
@@ -180,22 +181,15 @@ class DetailView(tables.DataTableView):
                 schema = congress.policy_table_schema_get(
                     self.request, datasource_id, table_name)
         except Exception as e:
-            msg_args = {
-                'table_name': table_name,
-                'ds_id': datasource_id,
-                'error': str(e)
-            }
-            msg = _('Unable to get schema for table "%(table_name)s", '
-                    'data source "%(ds_id)s": %(error)s') % msg_args
-            messages.error(self.request, msg)
-            redirect = reverse('horizon:admin:datasources:index')
-            raise exceptions.Http302(redirect)
+            # Unable to get the schema, might be atomic rule, just display
+            # without column names ...
+            schema['columns'] = []
 
-        columns = schema['columns']
         row_len = 0
         if len(rows):
             row_len = len(rows[0].get('data', []))
 
+        columns = schema['columns']
         if not row_len or row_len == len(columns):
             for col in columns:
                 col_name = col['name']
@@ -246,7 +240,6 @@ class DetailView(tables.DataTableView):
                 messages.error(self.request, msg)
                 redirect = reverse('horizon:admin:datasources:index')
                 raise exceptions.Http302(redirect)
-
         return rows
 
     def get_context_data(self, **kwargs):
