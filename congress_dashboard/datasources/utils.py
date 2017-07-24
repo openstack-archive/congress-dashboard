@@ -52,6 +52,57 @@ def _get_policy_tables(request):
     return all_tables
 
 
+def _get_policy_violations_tables(request):
+    """Return error and warning tables info for all policies. """
+    try:
+        # Get all the policies.
+        policies = congress.policies_list(request)
+    except Exception as e:
+        LOG.error('Unable to get list of policies: %s', str(e))
+    else:
+        try:
+            tables_data = []
+            for policy in policies:
+                policy_name = policy['name']
+                policy_table_info = {}
+                error_warning_tables = []
+                # Get all the tables in this policy.
+                policy_tables = congress.policy_tables_list(request,
+                                                            policy_name)
+                for table in policy_tables:
+                    table_name = table['id']
+                    if congress.TABLE_SEPARATOR in table_name:
+                        continue
+                    if table_name == 'error' or table_name == 'warning':
+                        policy_table_info['policy'] = policy
+                        error_warning_tables.append(table_name)
+                if error_warning_tables:
+                    policy_table_info['tables'] = error_warning_tables
+                    tables_data.append(policy_table_info)
+        except Exception as e:
+            LOG.error('Unable to get tables for policy "%s": %s',
+                      policy_name, str(e))
+    return tables_data
+
+
+def get_policy_violations_data(request):
+    """Get the row count of each error and warning tables. """
+    tables_data = _get_policy_violations_tables(request)
+    violations_table = []
+
+    for data in tables_data:
+        policy = data['policy']
+        tables = data['tables']
+        row = congress.PolicyTable({"id": policy['name']})
+        row.set_id_as_name_if_empty()
+        row.set_policy_details(policy)
+        for t in tables:
+            rows = congress.policy_rows_list(request, policy['name'], t)
+            row.set_value(t, len(rows))
+        violations_table.append(row)
+    return violations_table
+
+
 def _get_service_tables(request):
     # Return all service tables.
     all_tables = []
