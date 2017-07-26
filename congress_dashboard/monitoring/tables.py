@@ -12,15 +12,41 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import logging
+
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from horizon import tables
 
+LOG = logging.getLogger(__name__)
+
+
+def get_policy_url(obj):
+    return reverse('horizon:admin:policies:detail', args=(obj['policy_name'],))
+
+
+def get_error_table(obj):
+    if obj.get('error', 0) == 0:
+        return False
+    return reverse('horizon:admin:policies:policy_table_detail',
+                   args=(obj['policy_name'], 'error'))
+
+
+def get_warning_table(obj):
+    if obj.get('warning', 0) == 0:
+        return False
+    return reverse('horizon:admin:policies:policy_table_detail',
+                   args=(obj['policy_name'], 'warning'))
+
 
 class MonitoringTable(tables.DataTable):
-    errors = tables.Column("error", verbose_name=_("Errors"))
-    warnings = tables.Column("warning", verbose_name=_("Warnings"))
+    errors = tables.Column("error", verbose_name=_("Errors"),
+                           link=get_error_table)
+    warnings = tables.Column("warning", verbose_name=_("Warnings"),
+                             link=get_warning_table)
     policy_name = tables.Column("policy_name",
-                                verbose_name=_("violated policy name"))
+                                verbose_name=_("violated policy name"),
+                                link=get_policy_url)
     policy_description = tables.Column("policy_description",
                                        verbose_name=_("Policy Description"))
     policy_owner_id = tables.Column("policy_owner_id",
@@ -29,3 +55,4 @@ class MonitoringTable(tables.DataTable):
     class Meta(object):
         name = "monitoring"
         verbose_name = _("Monitoring")
+        hidden_title = False
