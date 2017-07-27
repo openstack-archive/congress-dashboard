@@ -8,6 +8,26 @@
 
 {% block main %}
   <div id="monitoring_panel">
+    <script type="text/javascript">
+    // primitive auto-reload every 30 seconds
+    function makeReloadInterval() {
+      return setInterval(function(){location.reload();}, 30000);
+    }
+    reloadInterval = makeReloadInterval()
+    function toggleRefresh() {
+      checkbox = document.getElementById("checkBox_auto_refresh")
+      if (!checkbox.checked) {
+        clearInterval(reloadInterval)
+      }
+      else {
+        reloadInterval = makeReloadInterval()
+      }
+    }
+    </script>
+    <input id="checkBox_auto_refresh" type="checkbox" checked onclick="toggleRefresh()">
+    <label for="checkBox_auto_refresh">
+      Auto refresh (every 30 seconds)
+    </label>
     {{ monitoring_table.render }}
   </div>
   <script type="text/javascript">
