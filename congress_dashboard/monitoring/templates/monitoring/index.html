@@ -31,16 +31,18 @@
     {{ monitoring_table.render }}
   </div>
   <script type="text/javascript">
-  // color none 0 errors/warnings red/yellow
+  // color non-zero errors/warnings red/yellow
   table_rows = document.getElementById("monitoring").childNodes[5];
   num_rows = (table_rows.childNodes.length - 1)/2;
   for (i = 0; i < num_rows; i++) {
     row = table_rows.childNodes[1 + 2*i];
-    if (row.childNodes[1].innerHTML.trim() != "-") {
-      row.childNodes[1].style.backgroundColor = "rgba(255, 0, 0, 0.5)";
-    }
-    if (row.childNodes[2].innerHTML.trim() != "-") {
-      row.childNodes[2].style.backgroundColor = "rgba(255, 255, 0, 0.5)";
+    if (row.className != "odd empty") {  // ignore the row indicating no items
+      if (row.childNodes[1].innerHTML.trim() != "-") {
+        row.childNodes[1].style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+      }
+      if (row.childNodes[2].innerHTML.trim() != "-") {
+        row.childNodes[2].style.backgroundColor = "rgba(255, 255, 0, 0.5)";
+      }
     }
   }
   </script>

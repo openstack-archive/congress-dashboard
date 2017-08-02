@@ -98,8 +98,10 @@ def get_policy_violations_data(request):
         row.set_policy_details(policy)
         for t in tables:
             rows = congress.policy_rows_list(request, policy['name'], t)
-            row.set_value(t, len(rows))
-        violations_table.append(row)
+            if len(rows) > 0:
+                row.set_value(t, len(rows))
+        if row.get('error') or row.get('warning'):
+            violations_table.append(row)
     return violations_table
 
 
