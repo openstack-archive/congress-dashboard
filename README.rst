@@ -10,7 +10,7 @@ policies and rules for governance of cloud.
 
 * Free software: Apache license
 * Source: http://git.openstack.org/cgit/openstack/congress-dashboard
-* Bugs: http://bugs.launchpad.net/congress
+* Bugs: https://bugs.launchpad.net/congress
 
 Enabling in DevStack
 --------------------
@@ -25,7 +25,7 @@ Manual Installation
 
 The following below instructions assumes that Horizon is already installed and
 its installation folder is <horizon>. Detailed information on how to install
-Horizon can be found at http://docs.openstack.org/developer/horizon/quickstart.html#setup.
+Horizon can be found at https://docs.openstack.org/horizon/latest/contributor/quickstart.html#setup.
 
 The installation folder of Congress Dashboard will be referred to as <congress-dashboard>.
 
