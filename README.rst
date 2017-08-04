@@ -1,6 +1,6 @@
-===============================
+=====================
 Congress Dashboard
-===============================
+=====================
 
 Horizon Plugin for Congress
 
@@ -48,11 +48,14 @@ Install Source code
 
   $ sudo python setup.py install
 
-And enable it in Horizon::
+And enable it in Horizon
 
-    ln -s <congress-dashboard>/congress_dashboard/enabled/_50_policy.py <horizon>/openstack_dashboard/local/enabled
-    ln -s <congress-dashboard>/congress_dashboard/enabled/_60_policies.py <horizon>/openstack_dashboard/local/enabled
-    ln -s <congress-dashboard>/congress_dashboard/enabled/_70_datasources.py <horizon>/openstack_dashboard/local/enabled
+.. code-block:: console
+
+  $ ln -s <congress-dashboard>/congress_dashboard/enabled/_50_policy.py <horizon>/openstack_dashboard/local/enabled
+  $ ln -s <congress-dashboard>/congress_dashboard/enabled/_60_policies.py <horizon>/openstack_dashboard/local/enabled
+  $ ln -s <congress-dashboard>/congress_dashboard/enabled/_70_datasources.py <horizon>/openstack_dashboard/local/enabled
+  $ ln -s <congress-dashboard>/congress_dashboard/enabled/_75_monitoring.py <horizon>/openstack_dashboard/local/enabled
 
 Restart Apache server
 
