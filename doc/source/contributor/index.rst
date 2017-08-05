@@ -4,7 +4,7 @@
 Contribution Guide
 =======================
 
-.. include:: ../../CONTRIBUTING.rst
+.. include:: ../../../CONTRIBUTING.rst
 
 Project Hosting Details
 -------------------------

@@ -1,4 +1,4 @@
 ==============================
 Installing Congress Dashboard
 ==============================
-.. include:: ../../README.rst
+.. include:: ../../../README.rst

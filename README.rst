@@ -1,6 +1,5 @@
-=====================
 Congress Dashboard
-=====================
+==================
 
 Horizon Plugin for Congress
 
