@@ -335,3 +335,17 @@ def delete_datasource(request, datasource_name):
     except Exception:
         LOG.exception("deleting datasource %s failed", datasource_name)
         raise
+
+
+def list_policies_from_library(request):
+    client = congressclient(request)
+    try:
+        results = client.list_library_policy()['results']
+        policies = []
+        for p in results:
+            policy = PolicyAPIDictWrapper(p)
+            policies.append(policy)
+        return policies
+    except Exception:
+        LOG.exception("List library policies failed")
+        raise
