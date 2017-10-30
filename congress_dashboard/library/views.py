@@ -38,3 +38,37 @@ class IndexView(tables.DataTableView):
             LOG.exception(msg)
             messages.error(self.request, msg)
             return []
+
+
+class DetailView(tables.DataTableView):
+    """List details about and rules in a policy."""
+    table_class = library_tables.LibraryPolicyRulesTable
+    template_name = 'admin/library/detail.html'
+
+    def get_data(self):
+        try:
+            policy_id = self.kwargs['policy_name']
+            policy, rules = congress.show_library_policy(self.request,
+                                                         policy_id)
+            for r in rules:
+                head = r['rule'].split(congress.RULE_SEPARATOR)[0]
+                name = (head.split('(')[0]).replace('_', ' ').title()
+                name = name.split('[')[0]
+                r.set_value('name', name)
+                r.set_id_if_empty(name)
+            return rules
+        except Exception as e:
+            msg = _('Unable to list rules of library policy: %s') % str(e)
+            LOG.exception(msg)
+            messages.error(self.request, msg)
+            return []
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        try:
+            policy_id = self.kwargs['policy_name']
+            policy, _ = congress.show_library_policy(self.request, policy_id)
+            context['policy'] = policy
+            return context
+        except Exception:
+            raise

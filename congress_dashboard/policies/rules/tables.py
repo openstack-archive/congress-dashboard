@@ -92,30 +92,12 @@ class DeleteRule(policy.PolicyTargetMixin, tables.DeleteAction):
             raise exceptions.Http302(redirect)
 
 
-def _format_rule(rule):
-    """Make rule's text more human readable."""
-    head_body = rule.split(congress.RULE_SEPARATOR)
-    if len(head_body) < 2:
-        return rule
-    head = head_body[0]
-    body = head_body[1]
-
-    # Add newline after each literal in the body.
-    body_literals = body.split(congress.LITERALS_SEPARATOR)
-    literals_break = congress.LITERALS_SEPARATOR + '\n'
-    new_body = literals_break.join(body_literals)
-
-    # Add newline after the head.
-    rules_break = congress.RULE_SEPARATOR + '\n'
-    return rules_break.join([head, new_body])
-
-
 class PolicyRulesTable(tables.DataTable):
     id = tables.Column("id", verbose_name=_("Rule ID"))
     name = tables.Column("name", verbose_name=_("Name"))
     comment = tables.Column("comment", verbose_name=_("Comment"))
     rule = tables.Column("rule", verbose_name=_("Rule"),
-                         filters=(_format_rule, linebreaksbr,))
+                         filters=(congress.format_rule, linebreaksbr,))
 
     class Meta(object):
         name = "policy_rules"

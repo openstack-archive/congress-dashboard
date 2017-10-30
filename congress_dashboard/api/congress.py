@@ -28,6 +28,30 @@ TABLE_SEPARATOR = ':'
 LOG = logging.getLogger(__name__)
 
 
+def format_rule(rule):
+    """Make rule's text more human readable."""
+    head_body = rule.split(RULE_SEPARATOR)
+    if len(head_body) < 2:
+        return rule
+    head = head_body[0]
+    body = head_body[1]
+
+    body_literals = body.split(LITERALS_SEPARATOR)
+    result = []
+    for lit in body_literals:
+        # First remove extra newlines in the literals
+        lit = lit.strip()
+        result.append(lit)
+
+    # Add newline after each literal in the body.
+    literals_break = LITERALS_SEPARATOR + '\n'
+    new_body = literals_break.join(result)
+
+    # Add newline after the head.
+    rules_break = RULE_SEPARATOR + '\n'
+    return rules_break.join([head, new_body])
+
+
 def _set_id_as_name_if_empty(apidict, length=0):
     try:
         if not apidict._apidict.get('name'):
@@ -348,4 +372,15 @@ def list_policies_from_library(request):
         return policies
     except Exception:
         LOG.exception("List library policies failed")
+        raise
+
+
+def show_library_policy(request, name):
+    client = congressclient(request)
+    try:
+        policy = client.show_library_policy(name)
+        rules = [PolicyRule(r) for r in policy['rules']]
+        return policy, rules
+    except Exception:
+        LOG.exception("unable to get library policy '%s' details", name)
         raise

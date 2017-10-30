@@ -12,14 +12,23 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from django.core.urlresolvers import reverse
+from django.template.defaultfilters import linebreaksbr
 from django.utils.translation import ugettext_lazy as _
 from horizon import tables
+
+from congress_dashboard.api import congress
+
+
+def get_policy_link(datum):
+    return reverse('horizon:admin:library:detail', args=(datum['id'],))
 
 
 class LibraryTable(tables.DataTable):
     id = tables.Column("id", verbose_name=_("Policy ID"), hidden=True,
                        sortable=False)
-    name = tables.Column("name", verbose_name=_("Policy Name"))
+    name = tables.Column("name", verbose_name=_("Policy Name"),
+                         link=get_policy_link)
     desc = tables.WrappingColumn("description", verbose_name=_("Description"),
                                  sortable=False)
 
@@ -27,3 +36,16 @@ class LibraryTable(tables.DataTable):
         name = "policy_library"
         verbose_name = _("Policy Library")
         hidden_title = True
+
+
+class LibraryPolicyRulesTable(tables.DataTable):
+    name = tables.Column("name", verbose_name=_("Rule Name"),
+                         classes=('nowrap-col',))
+    rule = tables.Column("rule", verbose_name=_("Rule"),
+                         filters=(congress.format_rule, linebreaksbr,))
+    comment = tables.WrappingColumn("comment", verbose_name=_("Comment"))
+
+    class Meta(object):
+        name = "policy_library_rules"
+        verbose_name = _("Policy Rules")
+        hidden_title = False

@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<h3>{% trans "Policy Overview" %}</h3>
+
+<div class="detail">
+  <dl class="dl-horizontal">
+    <dt>{% trans "Policy Name" %}</dt>
+    <dd>{{ policy.name|default:policy.id }}</dd>
+    <dt>{% trans "Policy ID" %}</dt>
+    <dd>{{ policy.id }}</dd>
+    <dt>{% trans "Description" %}</dt>
+    <dd>{{ policy.description }}</dd>
+    <dt>{% trans "Kind" %}</dt>
+    <dd>{{ policy.kind }}</dd>
+  </dl>
+</div>

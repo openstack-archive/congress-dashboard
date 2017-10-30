@@ -16,7 +16,9 @@ from django.conf.urls import url
 
 from congress_dashboard.library import views
 
+POLICY = r'^(?P<policy_name>[^/]+)/%s$'
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
+    url(POLICY % 'detail', views.DetailView.as_view(), name='detail'),
 ]

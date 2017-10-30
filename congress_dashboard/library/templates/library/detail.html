@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Policy Details" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Policy Details: ")|add:policy.name %}
+{% endblock page_header %}
+
+{% block main %}
+  {% include "admin/library/_detail_overview.html" %}
+  <hr>
+  <div id="policy_library_rules">
+    {{ policy_library_rules_table.render }}
+  </div>
+{% endblock %}
