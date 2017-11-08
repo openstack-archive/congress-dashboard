@@ -55,6 +55,7 @@ And enable it in Horizon
   $ ln -s <congress-dashboard>/congress_dashboard/enabled/_60_policies.py <horizon>/openstack_dashboard/local/enabled
   $ ln -s <congress-dashboard>/congress_dashboard/enabled/_70_datasources.py <horizon>/openstack_dashboard/local/enabled
   $ ln -s <congress-dashboard>/congress_dashboard/enabled/_75_monitoring.py <horizon>/openstack_dashboard/local/enabled
+  $ ln -s <congress-dashboard>/congress_dashboard/enabled/_80_library.py <horizon>/openstack_dashboard/local/enabled
 
 Restart Apache server
 

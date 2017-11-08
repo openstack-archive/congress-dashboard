@@ -134,10 +134,10 @@ def policies_list(request):
     return policies
 
 
-def policy_create(request, args):
+def policy_create(request, args, library_policy_id=None):
     """Create a policy with the given properties."""
     client = congressclient(request)
-    policy = client.create_policy(args)
+    policy = client.create_policy(args, library_policy_id)
     return policy
 
 

@@ -70,5 +70,9 @@ class DetailView(tables.DataTableView):
             policy, _ = congress.show_library_policy(self.request, policy_id)
             context['policy'] = policy
             return context
-        except Exception:
-            raise
+        except Exception as e:
+            margs = {'id': policy_id, 'error': str(e)}
+            msg = _('Unable to get library policy %(id)s: %(error)s') % margs
+            LOG.exception(msg)
+            messages.error(self.request, msg)
+            return []

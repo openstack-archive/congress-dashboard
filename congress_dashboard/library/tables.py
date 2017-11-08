@@ -15,6 +15,7 @@
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import linebreaksbr
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ungettext_lazy
 from horizon import tables
 
 from congress_dashboard.api import congress
@@ -22,6 +23,31 @@ from congress_dashboard.api import congress
 
 def get_policy_link(datum):
     return reverse('horizon:admin:library:detail', args=(datum['id'],))
+
+
+class ActivatePolicy(tables.BatchAction):
+    name = 'activate_policy'
+    verbose_name = _('Activate')
+    icon = 'plus'
+
+    @staticmethod
+    def action_present(count):
+        return ungettext_lazy(
+            u"Activate Policy",
+            u"Activate Policy",
+            count
+        )
+
+    @staticmethod
+    def action_past(count):
+        return ungettext_lazy(
+            u"Activated Policy",
+            u"Activated Policy",
+            count
+        )
+
+    def action(self, request, obj_id):
+        congress.policy_create(request, {}, obj_id)
 
 
 class LibraryTable(tables.DataTable):
@@ -35,6 +61,7 @@ class LibraryTable(tables.DataTable):
     class Meta(object):
         name = "policy_library"
         verbose_name = _("Policy Library")
+        row_actions = (ActivatePolicy, )
         hidden_title = True
 
 
