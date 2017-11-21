@@ -361,10 +361,10 @@ def delete_datasource(request, datasource_name):
         raise
 
 
-def list_policies_from_library(request):
+def list_policies_from_library(request, include_rules=True):
     client = congressclient(request)
     try:
-        results = client.list_library_policy()['results']
+        results = client.list_library_policy(include_rules)['results']
         policies = []
         for p in results:
             policy = PolicyAPIDictWrapper(p)
@@ -375,12 +375,14 @@ def list_policies_from_library(request):
         raise
 
 
-def show_library_policy(request, name):
+def show_library_policy(request, name, include_rules=True):
     client = congressclient(request)
     try:
-        policy = client.show_library_policy(name)
-        rules = [PolicyRule(r) for r in policy['rules']]
-        return policy, rules
+        policy = client.show_library_policy(name, include_rules=include_rules)
+        if include_rules:
+            rules = [PolicyRule(r) for r in policy['rules']]
+            policy['rules'] = rules
+        return policy
     except Exception:
         LOG.exception("unable to get library policy '%s' details", name)
         raise
