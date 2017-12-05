@@ -31,7 +31,8 @@ class IndexView(tables.DataTableView):
 
     def get_data(self):
         try:
-            policies = congress.list_policies_from_library(self.request)
+            policies = congress.list_policies_from_library(self.request,
+                                                           include_rules=False)
             return policies
         except Exception as e:
             msg = _('Unable to list library policies: %s') % str(e)
@@ -48,8 +49,8 @@ class DetailView(tables.DataTableView):
     def get_data(self):
         try:
             policy_id = self.kwargs['policy_name']
-            policy, rules = congress.show_library_policy(self.request,
-                                                         policy_id)
+            rules = congress.show_library_policy(self.request,
+                                                 policy_id)['rules']
             for r in rules:
                 head = r['rule'].split(congress.RULE_SEPARATOR)[0]
                 name = (head.split('(')[0]).replace('_', ' ').title()
@@ -67,7 +68,8 @@ class DetailView(tables.DataTableView):
         context = super(DetailView, self).get_context_data(**kwargs)
         try:
             policy_id = self.kwargs['policy_name']
-            policy, _ = congress.show_library_policy(self.request, policy_id)
+            policy = congress.show_library_policy(self.request, policy_id,
+                                                  include_rules=False)
             context['policy'] = policy
             return context
         except Exception as e:
