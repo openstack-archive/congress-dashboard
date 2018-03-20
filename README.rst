@@ -10,6 +10,8 @@ policies and rules for governance of cloud.
 * Free software: Apache license
 * Source: http://git.openstack.org/cgit/openstack/congress-dashboard
 * Bugs: https://bugs.launchpad.net/congress
+* Documentation: https://docs.openstack.org/congress-dashboard/latest/
+* Release notes: https://docs.openstack.org/releasenotes/congress-dashboard/
 
 Enabling in DevStack
 --------------------
