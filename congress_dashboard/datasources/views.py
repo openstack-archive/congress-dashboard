@@ -15,9 +15,9 @@
 import copy
 import logging
 
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
 from django.template.defaultfilters import slugify
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from horizon import exceptions
 from horizon import forms
