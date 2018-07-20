@@ -202,7 +202,7 @@ class DetailView(tables.DataTableView):
             # There could be another table with the same name and different
             # arity. Divide the rows into unnamed columns. Number them for
             # internal reference.
-            for i in xrange(0, row_len):
+            for i in range(0, row_len):
                 col_name = str(i)
                 column_names.append(col_name)
                 table_class_attrs[col_name] = tables.Column(
@@ -226,7 +226,7 @@ class DetailView(tables.DataTableView):
             try:
                 row_data = row['data']
                 row.delete_by_key('data')
-                for i in xrange(0, num_cols):
+                for i in range(0, num_cols):
                     row.set_value(column_names[i], row_data[i])
             except Exception as e:
                 msg_args = {

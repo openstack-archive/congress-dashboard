@@ -98,7 +98,9 @@ class CreateConditions(workflows.Step):
 
     def _compare_mapping_columns(self, x, y):
         # x = "mapping_column_<int>", y = "mapping_column_<int>"
-        return cmp(int(x.split('_')[-1]), int(y.split('_')[-1]))
+        x = int(x.split('_')[-1])
+        y = int(y.split('_')[-1])
+        return (x > y) - (x < y)
 
     def render(self):
         # Overriding parent method to add extra template context variables.
