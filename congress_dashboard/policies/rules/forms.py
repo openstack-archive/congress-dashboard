@@ -26,7 +26,7 @@ LOG = logging.getLogger(__name__)
 
 
 class CreateRawRule(forms.SelfHandlingForm):
-    rule = forms.CharField(label=_("Rule"), required=True,
+    rule = forms.CharField(label=_("Rule"),
                            widget=forms.Textarea(attrs={'rows': 5}))
     rule_name = forms.CharField(max_length=255, label=_("Rule Name"),
                                 required=False)
