@@ -13,6 +13,7 @@
 # under the License.
 
 import logging
+import uuid
 
 from django.utils.translation import ugettext_lazy as _
 from horizon import messages
@@ -56,7 +57,7 @@ class DetailView(tables.DataTableView):
                 name = (head.split('(')[0]).replace('_', ' ').title()
                 name = name.split('[')[0]
                 r.set_value('name', name)
-                r.set_id_if_empty(name)
+                r.set_id_if_empty(uuid.uuid4())
             return rules
         except Exception as e:
             msg = _('Unable to list rules of library policy: %s') % str(e)
