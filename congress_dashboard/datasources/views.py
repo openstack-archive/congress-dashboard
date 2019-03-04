@@ -137,7 +137,7 @@ class DetailView(tables.DataTableView):
                     datasources = congress.datasources_list(self.request)
                     for datasource in datasources:
                         if datasource['name'] == maybe_datasource_name:
-                            # Serivce-derived policy data table.
+                            # Service-derived policy data table.
                             is_service = True
                             datasource_id = datasource['id']
                             table_name = table_name_parts[1]
