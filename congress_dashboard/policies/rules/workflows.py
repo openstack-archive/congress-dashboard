@@ -156,7 +156,7 @@ class CreateConditions(workflows.Step):
                     aliases.append((value, alias_name))
 
         # Make sure there's at least one empty row.
-        context['joins'] = joins or [('', '')]
+        context['joins'] = joins or [('', '', '')]
         context['joins_count'] = len(joins) or 1
         context['negations'] = negations or [('', '')]
         context['negations_count'] = len(negations) or 1
