@@ -79,7 +79,7 @@ class CreateOutput(workflows.Step):
         columns_list = policy_columns.split(', ')
         context['policy_columns_list'] = columns_list
         context['policy_columns_count'] = len(columns_list)
-        return step_template.render(context)
+        return step_template.render(context.flatten())
 
 
 class CreateConditionsAction(workflows.Action):
@@ -170,7 +170,7 @@ class CreateConditions(workflows.Step):
         context['column_pattern_error'] = COLUMN_PATTERN_ERROR
         context['table_pattern'] = TABLE_PATTERN
         context['table_pattern_error'] = TABLE_PATTERN_ERROR
-        return step_template.render(context)
+        return step_template.render(context.flatten())
 
 
 def _underscore_slugify(name):
