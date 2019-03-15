@@ -6,4 +6,4 @@ ADD_INSTALLED_APPS = [
     'congress_dashboard',
 ]
 AUTO_DISCOVER_STATIC_FILES = True
-ADD_SCSS_FILES = ['congress_dashboard/static/admin/css/policies.css']
+ADD_SCSS_FILES = ['dashboard/static/admin/css/policies.css']
