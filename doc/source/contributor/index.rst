@@ -13,8 +13,8 @@ Bug tracker
     https://launchpad.net/congress
 
 Code Hosting
-    https://git.openstack.org/cgit/openstack/congress-dashboard
+    https://opendev.org/openstack/congress-dashboard
 
 Code Review
-    https://review.openstack.org/#/q/status:open+project:openstack/congress-dashboard,n,z
+    https://review.opendev.org/#/q/status:open+project:openstack/congress-dashboard,n,z
 
