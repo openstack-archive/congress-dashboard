@@ -90,6 +90,7 @@ rjsmin==1.0.12
 semantic-version==2.6.0
 simplejson==3.13.2
 six==1.11.0
+sphinx==1.6.2
 stevedore==1.28.0
 testrepository==0.0.20
 testtools==2.3.0
