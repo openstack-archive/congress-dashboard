@@ -21,7 +21,6 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from horizon import forms
 from horizon import workflows
-import six
 
 from congress_dashboard.api import congress
 
@@ -377,7 +376,7 @@ class CreateRule(workflows.Workflow):
             # Replace column names with variable names that join related
             # columns together.
             columns = self._get_schema_columns(request, table)
-            if isinstance(columns, six.string_types):
+            if isinstance(columns, str):
                 self.context['error'] = columns
                 return False
 
@@ -397,7 +396,7 @@ class CreateRule(workflows.Workflow):
         # Form the negated tables.
         for table in negation_tables:
             columns = self._get_schema_columns(request, table)
-            if isinstance(columns, six.string_types):
+            if isinstance(columns, str):
                 self.context['error'] = columns
                 return False
 
